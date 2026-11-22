@@ -6,20 +6,17 @@ const response = await fetch(
 );
 const repos = await response.json();
 
-for (let i = 0; i < repos.length; i++) {
-  let description;
-  if (repos[i]["description"] == null) {
-    description = "To be written";
-  } else {
-    description = repos[i]["description"];
-  }
 
-  if (repos[i]["fork"] === false) {
-    projectos.insertAdjacentHTML(
-      "beforeend",
+for (let repo of repos) {
+  let description;
+  if (repo.description == null) {
+    description = "To be written";
+  } else description = repo.description;
+
+  if (repo.fork === false) {
+    projectos.insertAdjacentHTML("beforeend", `
+      <li><i><a href="https://github.com/${repo.full_name}">${repo.name}</a></i>, ${description}
       `
-    <li><i><a href="https://github.com/${repos[i]["full_name"]}">${repos[i]["name"]}</a></i>, ${description}
-    `,
     );
   }
 }
